@@ -1,5 +1,7 @@
 package ticketviewer;
 
+import java.util.Scanner;
+
 /**
 * TickerInterface is used as the view. Mostly displays messages/errors 
 * and prints tickets.
@@ -21,7 +23,7 @@ public class TicketsViewer
 	
 	public void displayWelcome()
 	{
-		System.out.println("Welcome to Dennis' Ticket Viewer");
+		System.out.println("Welcome to Zendesk' Ticket Viewer");
 	}
 
 	public void displayMenu()
@@ -34,7 +36,7 @@ public class TicketsViewer
     	}
 	
 	public void displayTicketPageNumber(int currentPage, int maxPage)
-    	{
+	{
        		System.out.println("\nYou are on page " + currentPage + " of " + maxPage);
         	promptPageNumber();
 	}
@@ -46,7 +48,12 @@ public class TicketsViewer
 	
 	public void displayInputError()
     	{
-        	System.out.println("\nError: Your input was invalid.");
+        	System.out.println("\nError: Your input was invalid. If you want to try again press Y else press anything to exit!");
+			Scanner sc=new Scanner(System.in);
+			String input=sc.nextLine();
+			if("Y".equalsIgnoreCase(input)){
+				displayMenu();
+			}
     	}
 	
 	public void displayConnectError()

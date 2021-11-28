@@ -32,6 +32,10 @@ public class TicketsProcessor {
 			{
 				int currentIndex = (currentPage - 1) * PAGE_LIMIT;
 				int indexLimit = ticketDatabase.size() - currentIndex;
+				if(indexLimit>25){
+					indexLimit=25;
+				}
+				System.out.println("Ticket Index limit is: "+indexLimit);
 				if (indexLimit > PAGE_LIMIT)
 					indexLimit = currentIndex + PAGE_LIMIT;
 				for (int i = currentIndex; i < currentIndex + indexLimit; i++)

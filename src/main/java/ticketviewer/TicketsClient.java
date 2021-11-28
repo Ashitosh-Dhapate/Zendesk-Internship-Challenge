@@ -11,6 +11,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Scanner;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,15 +27,30 @@ public class TicketsClient
 	private String zendeskUrl = "https://zendeskcodingchallenge363.zendesk.com/api/v2/tickets.json";
 	private String username = "dhapateashu.ad@gmail.com";
 	private String password = "Ashu@8834";
+	//private String username;
+
+	//private String password;
+
 	private TicketsViewer ui = new TicketsViewer();
 	
 	private ArrayList<TicketsDTO> ticketDatabase = new ArrayList<TicketsDTO>();
 	
 	public TicketsClient() {}
-	
+
+	private void getUserData(){
+		Scanner sc=new Scanner(System.in);
+		System.out.println("Please enter your username...");
+		username=sc.nextLine();
+		System.out.println("Please enter your password...");
+		password=sc.nextLine();
+		//sc.close();
+	}
+
 	private String encryptUserDetails()
 	{
+	//	getUserData();
 		String toEncrypt = username + ":" + password;
+		System.out.println(toEncrypt);
 		return Base64.getEncoder().encodeToString(toEncrypt.getBytes());
 	}
 	

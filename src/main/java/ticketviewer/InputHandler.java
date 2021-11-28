@@ -25,7 +25,7 @@ public class InputHandler
 	{
 		int currentPage = 1;
 		// TODO: Better organize access to PAGE_LIMIT
-		int maxPage = (int) Math.ceil(client.getTicketDatabase().size() / 25.0); 
+		int maxPage = (int) Math.ceil(client.getTicketDatabase().size() / 25.0);
 		while (currentPage != 0)
 		{
 			try 
@@ -41,6 +41,7 @@ public class InputHandler
 					ui.promptPageNumber();
 				}
 				currentPage = input.nextInt();
+				System.out.println("The inputted current page is: "+currentPage);
 			}
 			catch (InputMismatchException error)
 			{
