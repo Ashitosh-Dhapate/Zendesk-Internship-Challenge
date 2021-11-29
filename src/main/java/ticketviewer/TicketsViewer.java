@@ -1,7 +1,7 @@
 package ticketviewer;
 
 /**
-* TickerInterface is used as the view. Mostly displays messages/errors 
+* TicketsViewer is used as the view. Mostly displays messages/errors
 * and prints tickets.
 */
 public class TicketsViewer
@@ -50,7 +50,7 @@ public class TicketsViewer
 	
 	public void displayConnectError()
     	{
-        	System.out.println("\nError: There is a connection issue or the API is currently unavailable. Please rerun again after some time to test the app");
+        	System.out.println("\nError: There is a connection issue or the API is currently unavailable. Also please make sure you entered all the required details correctly. Please rerun again after some time to test the app");
     	}
 	
 	public void displayShutdownMessage()

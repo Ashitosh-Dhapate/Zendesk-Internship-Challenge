@@ -3,7 +3,7 @@ package ticketviewer;
 import java.util.ArrayList;
 
 /**
-* TicketViewer handles the core business logic of displaying single and multiple tickets as well as pagination.
+* TicketsProcessor handles the core business logic of displaying single and multiple tickets as well as pagination.
 */
 public class TicketsProcessor {
 	private TicketsViewer ticketsViewer = new TicketsViewer();

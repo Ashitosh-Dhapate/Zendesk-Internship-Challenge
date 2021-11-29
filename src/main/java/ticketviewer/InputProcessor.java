@@ -4,7 +4,7 @@ import java.util.Scanner;
 import java.util.InputMismatchException;
 
 /**
-* InputHandler is the controller of the program, handling all the user input
+* InputProcessor is the controller of the program, handling all the user input
 */
 
 public class InputProcessor
@@ -21,7 +21,7 @@ public class InputProcessor
 	public boolean isQuitSelected() { return quitSelected; }
 	public void setQuitOption(boolean quit) { this.quitSelected = quit; }
 	
-	private void scrollThroughPages(TicketsClient ticketsClient, TicketsProcessor ticketsProcessor)
+	public void scrollThroughPages(TicketsClient ticketsClient, TicketsProcessor ticketsProcessor)
 	{
 		int currentPageNumber = 1;
 		int maxPageNumber = (int) Math.ceil(ticketsClient.getTicketsDatabase().size() / 25.0);
@@ -83,7 +83,7 @@ public class InputProcessor
 		}
 	}
 
-	private void getTicketFromID(TicketsClient ticketsClient)
+	public void getTicketFromID(TicketsClient ticketsClient)
 	{
 		TicketsProcessor ticketsProcessor = new TicketsProcessor();
 		

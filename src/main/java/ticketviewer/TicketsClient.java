@@ -17,7 +17,7 @@ import org.json.JSONObject;
 
 
 /**
-* TicketClient authenticates and loads/save ticket data from Zendesk account.
+* TicketsClient authenticates and loads/save ticket data from Zendesk account.
 */
 public class TicketsClient
 {
