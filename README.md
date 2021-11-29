@@ -17,7 +17,9 @@ Please follow the instructions mentioned below to run it and you will need to pr
 ## Getting Started
 1. Clone the git repository
 2. Navigate to the root directory of the repo.
-3. Execute the following command from the terminal
+3. Execute the following command from the terminal.  
+
+Most of the times only importing this project in an IDE like intellij will do automatic build and you can directly run the application. 
 
 Windows:
 
