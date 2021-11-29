@@ -1,11 +1,8 @@
 package ticketviewer;
 
-import java.util.Scanner;
-
 /**
 * TickerInterface is used as the view. Mostly displays messages/errors 
 * and prints tickets.
-* TODO: Rename class to something more appropriate
 */
 public class TicketsViewer
 {
@@ -18,7 +15,7 @@ public class TicketsViewer
 	
 	public void displayLoadError()
 	{
-		System.out.println("\nError: Problem in loading tickets");
+		System.out.println("\nError: Problem in loading tickets...Please rerun again to test the app");
 	}
 	
 	public void displayWelcome()
@@ -48,17 +45,12 @@ public class TicketsViewer
 	
 	public void displayInputError()
     	{
-        	System.out.println("\nError: Your input was invalid. If you want to try again press Y else press anything to exit!");
-			Scanner sc=new Scanner(System.in);
-			String input=sc.nextLine();
-			if("Y".equalsIgnoreCase(input)){
-				displayMenu();
-			}
+        	System.out.println("\nError: Your input was invalid. Please rerun again to test the app");
     	}
 	
 	public void displayConnectError()
     	{
-        	System.out.println("\nError: There is a connection issue or the API is currently unavailable");
+        	System.out.println("\nError: There is a connection issue or the API is currently unavailable. Please rerun again after some time to test the app");
     	}
 	
 	public void displayShutdownMessage()
@@ -70,20 +62,20 @@ public class TicketsViewer
 	{
 		System.out.println("\n[" + index + "] - Ticket " + Long.toString(ticket.getId()) + 
 				" with subject '" + ticket.getSubject() +
-				"' opened by " + ticket.getSubmitter_id());
+				"' opened by " + ticket.getSubmitterId());
 	}
 	
 	public void printTicket(TicketsDTO ticket, String ticketDescription, int index)
 	{
 		System.out.println("\n[" + index + "] - Ticket " + Long.toString(ticket.getId()) + 
 				" with subject '" + ticket.getSubject() +
-				"' opened by " + ticket.getSubmitter_id());
+				"' opened by " + ticket.getSubmitterId());
 		System.out.println("Content:\n" + ticketDescription);
 	}
 
 	public void displayNoTicketFoundError() 
 	{
-		System.out.println("\nError: No ticket found with that index");	
+		System.out.println("\nError: No ticket found with that index...Please rerun again to test the app");
 	}
 	
 	public void promptPageNumber() {

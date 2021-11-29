@@ -6,9 +6,9 @@ import java.util.ArrayList;
 * TicketViewer handles the core business logic of displaying single and multiple tickets as well as pagination.
 */
 public class TicketsProcessor {
-	private TicketsViewer ui = new TicketsViewer();
+	private TicketsViewer ticketsViewer = new TicketsViewer();
 	private static int PAGE_LIMIT = 25;
-	
+
 	public boolean moreThanOnePage(ArrayList<TicketsDTO> ticketDatabase)
 	{
 		if (ticketDatabase.size() > PAGE_LIMIT)
@@ -23,7 +23,7 @@ public class TicketsProcessor {
 		{
 			for (int i = 0; i < ticketDatabase.size(); i++)
 			{
-				ui.printTicket(ticketDatabase.get(i), i+1);
+				ticketsViewer.printTicket(ticketDatabase.get(i), i+1);
 			}
 		}
 		else
@@ -31,21 +31,20 @@ public class TicketsProcessor {
 			try
 			{
 				int currentIndex = (currentPage - 1) * PAGE_LIMIT;
-				int indexLimit = ticketDatabase.size() - currentIndex;
-				if(indexLimit>25){
-					indexLimit=25;
+				int currentIndexLimit = ticketDatabase.size() - currentIndex;
+				if(currentIndexLimit>25){
+					currentIndexLimit=25;
 				}
-				System.out.println("Ticket Index limit is: "+indexLimit);
-				if (indexLimit > PAGE_LIMIT)
-					indexLimit = currentIndex + PAGE_LIMIT;
-				for (int i = currentIndex; i < currentIndex + indexLimit; i++)
+				if (currentIndexLimit > PAGE_LIMIT)
+					currentIndexLimit = currentIndex + PAGE_LIMIT;
+				for (int i = currentIndex; i < currentIndex + currentIndexLimit; i++)
 				{
-					ui.printTicket(ticketDatabase.get(i), i+1);
+					ticketsViewer.printTicket(ticketDatabase.get(i), i+1);
 				}
 			}
 			catch (IndexOutOfBoundsException error)
 			{
-				ui.displayInputError();
+				ticketsViewer.displayInputError();
 			}
 		}
 		
@@ -56,15 +55,15 @@ public class TicketsProcessor {
 		try
 		{
 			// As the user inputs a number that's not 0 based, index must be decremented
-			ui.printTicket(ticketDatabase.get(index-1), ticketDatabase.get(index-1).getDescription(), index);
+			ticketsViewer.printTicket(ticketDatabase.get(index-1), ticketDatabase.get(index-1).getDescription(), index);
 		}
 		catch (NullPointerException error)
 		{
-			ui.displayNoTicketFoundError();
+			ticketsViewer.displayNoTicketFoundError();
 		}
 		catch (IndexOutOfBoundsException error)
 		{
-			ui.displayNoTicketFoundError();
+			ticketsViewer.displayNoTicketFoundError();
 		}
 	}
 }

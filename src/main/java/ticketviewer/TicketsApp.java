@@ -6,19 +6,18 @@ public class TicketsApp
 {
 	public static void main(String[] args) throws IOException
 	{
-		// TODO: handle exception here
-		TicketsClient client = new TicketsClient();
-		InputHandler input = new InputHandler();
-		TicketsViewer ui = new TicketsViewer();
-	
-		client.loadTicketDatabase();
-		
-		ui.displayWelcome();
-		while (!input.isQuit())
+		TicketsClient ticketsClient = new TicketsClient();
+		InputProcessor inputProcessor = new InputProcessor();
+		TicketsViewer ticketsViewer = new TicketsViewer();
+
+		ticketsClient.loadTicketDatabase();
+
+		ticketsViewer.displayWelcome();
+		while (!inputProcessor.isQuitSelected())
 		{
-			ui.displayMenu();
-			input.getMenuChoice(client);
+			ticketsViewer.displayMenu();
+			inputProcessor.getMenuChoice(ticketsClient);
 		}
-		ui.displayShutdownMessage();
+		ticketsViewer.displayShutdownMessage();
 	}
 }

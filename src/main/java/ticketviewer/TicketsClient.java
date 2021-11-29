@@ -1,6 +1,5 @@
 package ticketviewer;
 
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Base64;
 
@@ -11,7 +10,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.Scanner;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,34 +21,26 @@ import org.json.JSONObject;
 */
 public class TicketsClient
 {
-	// TODO: Add methods to change subdomain, username and password during execution
-	private String zendeskUrl = "https://zendeskcodingchallenge363.zendesk.com/api/v2/tickets.json";
-	private String username = "dhapateashu.ad@gmail.com";
-	private String password = "Ashu@8834";
-	//private String username;
 
-	//private String password;
+	public String zendeskUrl;
 
-	private TicketsViewer ui = new TicketsViewer();
+	public static String username;
+
+	public static String password;
+
+	public static String subdomain;
+
+	private TicketsViewer ticketsViewer = new TicketsViewer();
 	
 	private ArrayList<TicketsDTO> ticketDatabase = new ArrayList<TicketsDTO>();
-	
+
+	InputProcessor inputProcessor;
+
 	public TicketsClient() {}
 
-	private void getUserData(){
-		Scanner sc=new Scanner(System.in);
-		System.out.println("Please enter your username...");
-		username=sc.nextLine();
-		System.out.println("Please enter your password...");
-		password=sc.nextLine();
-		//sc.close();
-	}
-
-	private String encryptUserDetails()
+	public String encryptUserLoginDetails()
 	{
-	//	getUserData();
 		String toEncrypt = username + ":" + password;
-		System.out.println(toEncrypt);
 		return Base64.getEncoder().encodeToString(toEncrypt.getBytes());
 	}
 	
@@ -58,77 +48,78 @@ public class TicketsClient
 	{
 		try
 		{	
-			JSONArray rawData = getJSONTicketData();	
-			for (int i = 0; i < rawData.length(); i++)
+			JSONArray jsonArray = getJSONTicketsData();
+			for (int i = 0; i < jsonArray.length(); i++)
 			{
-				JSONObject ticketData = rawData.getJSONObject(i);
-				this.ticketDatabase.add(getTicket(ticketData));
+				JSONObject ticketsData = jsonArray.getJSONObject(i);
+				this.ticketDatabase.add(getTickets(ticketsData));
 			}
 		}
 		catch (IOException error)
 		{
-			ui.displayLoadError();
+			ticketsViewer.displayLoadError();
 		}
 		catch (JSONException error)
 		{
-			ui.displayLoadError();
+			ticketsViewer.displayLoadError();
 		}
 	}
 	
-	private TicketsDTO getTicket(JSONObject ticketData)
+	public TicketsDTO getTickets(JSONObject ticketData)
 	{
-		// TODO: Deserialize JSON ticket into ticket using GSON library
-		TicketsDTO result = new TicketsDTO();
-		result.setId(ticketData.optLong("id"));
-		result.setSubject(ticketData.optString("subject"));
-		result.setDescription(ticketData.optString("description"));
-		result.setStatus(ticketData.optString("status"));
-		result.setSubmitter_id(ticketData.optLong("submitter_id"));
-		return result;
+		TicketsDTO ticketsDTO = new TicketsDTO();
+		ticketsDTO.setId(ticketData.optLong("id"));
+		ticketsDTO.setSubject(ticketData.optString("subject"));
+		ticketsDTO.setDescription(ticketData.optString("description"));
+		ticketsDTO.setStatus(ticketData.optString("status"));
+		ticketsDTO.setSubmitterId(ticketData.optLong("submitter_id"));
+		return ticketsDTO;
 	}
-	
-	private JSONArray getJSONTicketData() throws JSONException, IOException
+
+
+	public JSONArray getJSONTicketsData() throws JSONException, IOException
 	{
 		StringBuilder data = new StringBuilder();
 		try
 		{
-			// Connect to Zendesk API using hardcoded details
+			InputProcessor inputProcessor=new InputProcessor();
+			inputProcessor.getUserData();
+			zendeskUrl = "https://"+subdomain+".zendesk.com/api/v2/incremental/tickets.json?start_time=1542953046";
 			URL url = new URL(zendeskUrl);
 
-			URLConnection uc = url.openConnection();
-			String basicAuth = "Basic " + encryptUserDetails();
-			uc.setRequestProperty("Authorization", basicAuth);
+			URLConnection urlConnection = url.openConnection();
+			String basicAuth = "Basic " + encryptUserLoginDetails();
+			urlConnection.setRequestProperty("Authorization", basicAuth);
 			
-			int httpResult = ((HttpURLConnection) uc).getResponseCode();
+			int httpResult = ((HttpURLConnection) urlConnection).getResponseCode();
 			if (httpResult == HttpURLConnection.HTTP_OK)
 			{
-				BufferedReader br = new BufferedReader(new InputStreamReader(uc.getInputStream()));
+				BufferedReader reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
 				String input;
 				
-				// Get all ticket data from the servers - UNSAFE if large amount of records is retrieved
-				// save up to 100. 100 max. Then request more after the 4's page turn. Otherwise have a moving queue. Remove back 25 for more 25 and vice versa
-				// TODO: Investigate API pagination
-				while ((input = br.readLine()) != null)
+				//Here I am using API cursor request to fetch tickets if they are more than 100 as zendesk's api has
+				//Pagination limit of 100 by default. The cursor request fetches all ticket data after the date 23rd Nov 2018(This epoch time is as mentioned in zendesk documentation for cursor request)
+				while ((input = reader.readLine()) != null)
 				{
 					data.append(input + "\n");
 				}
-				br.close();
+				reader.close();
 			}
 			else
 			{
-				ui.displayConnectError();
+				ticketsViewer.displayConnectError();
 			}
 		}
 		catch (MalformedURLException error)
 		{
-			ui.displayConnectError();
+			ticketsViewer.displayConnectError();
 		}
-		JSONObject object = new JSONObject(data.toString());
-		JSONArray result = object.getJSONArray("tickets");
-		return result;
+		JSONObject jsonObject = new JSONObject(data.toString());
+		JSONArray jsonArray = jsonObject.getJSONArray("tickets");
+		return jsonArray;
 	}
 
-	public ArrayList<TicketsDTO> getTicketDatabase() {
+	public ArrayList<TicketsDTO> getTicketsDatabase() {
 		return ticketDatabase;
 	}
 }

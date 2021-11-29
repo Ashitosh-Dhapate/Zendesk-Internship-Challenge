@@ -1,9 +1,8 @@
 package ticketviewer;
 
 /**
-* The main Ticket POJO. Properties are based off of ticket fields.
+* The main Tickets POJO class.
 * Other fields were not added as these were the bare minimum needed to be displayed
-* TODO add more fields for the other ticket fields, such as URL
 */
 public class TicketsDTO
 {
@@ -11,7 +10,7 @@ public class TicketsDTO
 	private String subject;
 	private String description;
 	private String status;
-	private long submitter_id;
+	private long submitterId;
     
 	public TicketsDTO() {}
     
@@ -47,11 +46,11 @@ public class TicketsDTO
         	this.status = status;
     	}
 	
-    	public long getSubmitter_id() {
-        	return submitter_id;
+    	public long getSubmitterId() {
+        	return submitterId;
     	}
 	
-    	public void setSubmitter_id(long submitter_id) {
-        	this.submitter_id = submitter_id;
+    	public void setSubmitterId(long submitterId) {
+        	this.submitterId = submitterId;
     	}
 }
