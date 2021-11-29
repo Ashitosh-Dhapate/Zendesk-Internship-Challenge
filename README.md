@@ -6,7 +6,7 @@ Coding Challenge for Zendesk Internship Position 2022.
 ## Prerequisites
 * Java 8
 
-##Design Thinking
+## Design Thinking  
 This project was given with the requirements that we should create it as simple as possible and no extra features should be added. I have used CLI based approach as per the given options in required document. Since we are not allowed to add any more functionality than mentioned in the document and we need to keep it as simple as possible I choose to write simple java classes instaed of using bulky framework like SpringBoot as we need to access only one API with minimal requirements.
 Then the next alternative was to use some UI framework and do everything using it without backend. But it was more easy to use simple java methods to do this task so I choose that apporach.  
 Please follow the instructions mentioned below to run it and you will need to provide the subdomain of the zendesk account,username and password as we were not allowed to add credentials in code.  
